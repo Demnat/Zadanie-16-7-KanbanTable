@@ -21,11 +21,13 @@ $(function() {
     
         function createColumn() {
             // CREATING COMPONENTS OF COLUMNS
-            var $column = $('<div>').addClass('column');
-            var $columnTitle = $('<h2>').addClass('column-title').text(self.name);
-            var $columnCardList = $('<ul>').addClass('column-card-list');
-            var $columnDelete = $('<button>').addClass('btn-delete').text('x');
-            var $columnAddCard = $('<button>').addClass('add-card').text('Add a card');
+            var $column = $('<div>').addClass('index__board-columnContainer-column');
+            var $columnHeader = $('<div>').addClass('index__board-columnContainer-column-header');
+            $columnHeader.append($('<h2>').addClass('index__board-columnContainer-column-header-title').text(self.name));
+            var $columnDelete = $('<i>').addClass('index__board-columnContainer-column-header-icon icon-trash-empty board-btn-delete');
+            $columnHeader.append($columnDelete);
+            var $columnCardList = $('<ul>').addClass('index__board-columnContainer-column-cardList');
+            var $columnAddCard = $('<button>').addClass('index__board-columnContainer-column-addCard').text('Add a card');
         
             // ADDING EVENTS
             $columnDelete.click(function() {
@@ -37,8 +39,8 @@ $(function() {
             });
         
             // CONSTRUCTION COLUMN ELEMENT
-            $column.append($columnTitle)
-                .append($columnDelete)
+            $column.append($columnHeader)
+                // .append($columnDelete)
                 .append($columnAddCard)
                 .append($columnCardList);
         
@@ -70,9 +72,9 @@ $(function() {
         function createCard() {
             
             // CREATING THE BLOCKS
-            var $card = $('<li>').addClass('card');
-            var $cardDescription = $('<p>').addClass('card-description').text(self.description);
-            var $cardDelete = $('<button>').addClass('btn-delete').text('x');
+            var $card = $('<li>').addClass('index__board-columnContainer-column-cardList-card');
+            var $cardDescription = $('<p>').addClass('index__board-columnContainer-column-cardList-card-description').text(self.description);
+            var $cardDelete = $('<i>').addClass('index__board-columnContainer-column-cardList-card-icon icon-trash-empty');
         
             // BINDING TO CLICK EVENT
             $cardDelete.click(function(){
@@ -114,12 +116,8 @@ $(function() {
         function createBoard() {
             
             // CREATING COMPONENTS OF BOARD
-            var boardActive = $('index__board--active');
-            if (boardActive[0] != null) {   
-                boardActive[0].removeClass('index__board--active');                
-            }
-                        
-            var $board = $('<div>').addClass('index__board index__board--active').attr('id', self.id);
+            $('.index__board--active').removeClass('index__board--active');                      
+            var $board = $('<div>').addClass('index__board index__board index__board--active').attr('id', self.id);
             var $boardHeader = $('<div>').addClass('index__board-header');
             $boardHeader.append($('<h1>').addClass('index__board-header-title').text(self.name));
             var $boardDelete = $('<i>').addClass('index__board-header-icon icon-trash-empty board-btn-delete');
@@ -205,24 +203,23 @@ $(function() {
         doingColumn.addCard(card2);
 
         //CREATING TAB
-        
-        var tabActive = $('index__boards-tab--active');
-        if (tabActive[0] != null) {   
-            tabActive[0].removeClass('index__boards-tab--active');           
-        }
+        $('.index__boards-tab--active').removeClass('index__boards-tab--active');
+       
         // connects li to tabs ul
         var $boardTab = $('<li>').addClass('index__boards-tab index__boards-tab--active')
                                  .prependTo($('.index__boards')); 
         var $boardLinkTab = $('<a>').addClass('index__boards-tab-link')
                                     .text(kanbanBoard.name)
-                                    .attr('href', '#' + kanbanBoard.id);
+                                    .attr('href', '#' + kanbanBoard.id)
+                                    .click(function(e){
+                                            e.preventDefault();
+                                            $('.index__boards-tab--active').removeClass('index__boards-tab--active');
+                                            $boardLinkTab.parent().addClass('index__boards-tab--active');
+                                            $('.index__board--active').removeClass('index__board--active');  
+                                            kanbanBoard.$element.parent().addClass('index__board--active');
+                                        });
         $boardTab.append($boardLinkTab);
 
     });
-
-
-
-   
-
 
 })
