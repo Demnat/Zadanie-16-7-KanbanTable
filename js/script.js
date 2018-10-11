@@ -100,8 +100,8 @@ $(function() {
     //===============================
     //===== BOARD ====================
     function initSortable() {
-        $('.column-card-list').sortable({
-          connectWith: '.column-card-list',
+        $('.index__board-columnContainer-column-cardList').sortable({
+          connectWith: '.index__board-columnContainer-column-cardList',
           placeholder: 'card-placeholder'
         }).disableSelection();
     }
