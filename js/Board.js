@@ -3,7 +3,19 @@
 function initSortable() {
     $('.index__board-columnContainer-column-cardList').sortable({
         connectWith: '.index__board-columnContainer-column-cardList',
-        placeholder: 'card-placeholder'
+        placeholder: 'card-placeholder',
+        update: function(event, ui) {
+            
+            $.ajax({
+                url: baseUrl + '/card/' + ui.item.data('id'),
+                method: 'PUT',
+                data: {
+                    name: ui.item.find('p').text(),
+                    bootcamp_kanban_column_id: ui.item.parents('.index__board-columnContainer-column').data('id'),
+                }
+            });     
+
+        }
     }).disableSelection();
 }
 

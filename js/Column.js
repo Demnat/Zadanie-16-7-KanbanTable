@@ -9,9 +9,10 @@ function Column(id, name) {
 
     function createColumn() {
         // CREATING COMPONENTS OF COLUMNS
-        var $column = $('<div>').addClass('index__board-columnContainer-column');
+        var $column = $('<div>').addClass('index__board-columnContainer-column').data('id',self.id);
         var $columnHeader = $('<div>').addClass('index__board-columnContainer-column-header');
-        $columnHeader.append($('<h2>').addClass('index__board-columnContainer-column-header-title').text(self.name));
+        var $headerTitle = $('<h2>').addClass('index__board-columnContainer-column-header-title').text(self.name);
+        $columnHeader.append($headerTitle);
         var $columnDelete = $('<i>').addClass('index__board-columnContainer-column-header-icon icon-trash-empty board-btn-delete');
         $columnHeader.append($columnDelete);
         var $columnCardList = $('<ul>').addClass('index__board-columnContainer-column-cardList');
@@ -39,6 +40,23 @@ function Column(id, name) {
             });
 
            // self.addCard(new Card(cardName));  // w materiale jest: self.createCard(new Card(prompt("Enter the name of the card")));
+        });
+
+        $headerTitle.click(function (event) {
+            var title = prompt("Enter the name of the column");
+            event.preventDefault();
+            $.ajax({
+                url: baseUrl + '/column/' + self.id,
+                method: 'PUT',
+                data: {
+                    name: title,
+                },
+                success: function() {
+                    self.name = title;
+                    $headerTitle.text(self.name);
+                }
+            });
+
         });
 
         // CONSTRUCTION COLUMN ELEMENT
@@ -69,4 +87,5 @@ Column.prototype = {
         });
         // this.$element.remove();
     }
+    
 };

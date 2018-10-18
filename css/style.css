@@ -149,7 +149,7 @@
   margin: 10px;
   padding: 5px;
   width: 40%;
-  height: 30%;
+  max-height: 30%;
   display: inline-flex;
   background-color: #7ed6df;
   border: 3px solid #22a6b3;
